@@ -1,21 +1,10 @@
 public class NewSorting {
-    public static void main(String[] args) {
-//        int [] a = {0,1,2,3,4,5};
-//        int size = 3;
-//        newSorting(a, size);
+    public void newSorting(int[] a, int size) {
+        int start = a[0];
+        int end = a.length -1;
 
-        int [] a = new int[6];
-        int [] b = {11,12,14};
-        int [] c = {10,13,15};
-
-        mergeSortHalves(a,b,c);
-        for (int i = 0; i < a.length; i++) {
-            System.out.print(a[i] + " ");
-        }
-    }
-    public static void newSorting(int[] a, int size) {
         if (a.length <= size) {
-            quickSort(a);
+            quickSort(a,start,end);
         } else {
             int mid = a.length / 2;
             int[] left = new int [mid];
@@ -33,11 +22,36 @@ public class NewSorting {
             mergeSortHalves(a,left,right);
         }
     }
-     public static void quickSort(int [] a) {
+
+    public int part(int []a, int start, int end) {
+        int pivot = a[start];
+        for (int i = start; i < end; i++) {
+            if (a[i] <= pivot) {
+                start++;
+                int temp = pivot;
+                pivot = a[i];
+                a[i] = temp;
+            }
+        int temp = a[end + 1];
+            a[end + 1] = a[start];
+            a[start] = temp;
+        }
+        return end + 1;
+    }
+     public void quickSort(int [] a, int start, int end) {
+
+        //base case
+        if (start < end) {
+            int index = part(a, start, end);
+            //left
+            quickSort(a,start,(index - 1));
+            //right
+            quickSort(a,(index + 1), end);
+        }
 
      }
 
-     public static void mergeSortHalves(int [] a, int[] left, int [] right) {
+     public void mergeSortHalves(int [] a, int[] left, int [] right) {
         int lPoint = 0;
         int rPoint =  0;
 
